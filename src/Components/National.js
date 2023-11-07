@@ -41,7 +41,7 @@ const National = () => {
   return (
     <PageWrapper header="National Energy Mix">
       {(isLoading || !mix) && <Loading />}
-      {!isLoading && (
+      {!isLoading && mix && (
         <>
           <StatusBar
             time={mix.time}
