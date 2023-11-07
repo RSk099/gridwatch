@@ -12,6 +12,7 @@ import { styled as styledComponent } from "styled-components";
 import logo from "../icons/logo.png";
 
 import useRegion from "../hooks/useRegion";
+import PostcodeInput from "./PostcodeInput";
 
 const Wrapper = styledComponent(Box)`
   margin: auto;
@@ -20,10 +21,6 @@ const Wrapper = styledComponent(Box)`
 `;
 
 const PageWrapper = ({ header, children }) => {
-  const { postcode, setPostcode } = useRegion();
-
-  const navigate = useNavigate();
-
   return (
     <Wrapper sx={{ padding: { xs: "1rem", sm: "0rem" } }}>
       <Box sx={{ flexGrow: 1, marginBottom: "1rem" }}>
@@ -55,29 +52,18 @@ const PageWrapper = ({ header, children }) => {
                   margin: "auto",
                 }}
               >
-                <img src={logo} width="30px" style={{ paddingRight: "1rem" }} />
-                GridWatch - {header}
+                <a href="/" style={{ textDecoration: "none", color: "white" }}>
+                  <img
+                    src={logo}
+                    width="30px"
+                    style={{ paddingRight: "1rem" }}
+                  />
+                  GridWatch - {header}
+                </a>
               </div>
             </Typography>
             <div>
-              <input
-                placeholder="Postcode"
-                value={postcode}
-                onChange={(e) => setPostcode(e.target.value.toUpperCase())}
-              />
-              <button onClick={() => navigate(`/regional/${postcode}`)}>
-                See Regional
-              </button>
-              {postcode && (
-                <button
-                  onClick={() => {
-                    setPostcode(null);
-                    navigate(`/`);
-                  }}
-                >
-                  Clear
-                </button>
-              )}
+              <PostcodeInput />
             </div>
           </Toolbar>
         </AppBar>

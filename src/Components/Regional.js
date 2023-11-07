@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import PageWrapper from "./PageWrapper";
 import Generation from "./Generation";
@@ -10,25 +10,23 @@ import categories from "../utilities/categories";
 import Loading from "./Loading";
 
 import useRegion from "../hooks/useRegion";
+import WindMap from "./WindMap";
 
 const Regional = () => {
-  const { postcode, setPostcode } = useRegion();
+  const { region } = useRegion();
   const { code } = useParams();
 
   const [mix, setMix] = useState();
 
-  useEffect(() => {
-    if (code && !postcode) {
-      setPostcode(code);
-    }
-  }, [code, postcode]);
-
   const { isLoading } = useQuery(
-    `https://api.carbonintensity.org.uk/regional/postcode/${code}`,
+    `https://api.carbonintensity.org.uk/regional/postcode/${
+      code ? code : region.district
+    }`,
     {
-      enabled: Boolean(code),
+      enabled: Boolean(code || region.district),
       onSuccess: ({ data }) => {
-        const { generationmix, intensity } = data[0].data[0];
+        console.log(data);
+        const { generationmix, intensity, to } = data[0].data[0];
 
         const generation = generationmix.map((fuelInfo) => {
           for (const category in categories) {
@@ -45,23 +43,30 @@ const Regional = () => {
           };
         });
 
-        setMix({ generation, intensity });
+        setMix({ generation, intensity, region: data[0].shortname, time: to });
       },
       onError: (data) => console.log(data),
     }
   );
 
-  if (isLoading || !mix) {
-    return <Loading />;
-  }
-
   return (
-    <PageWrapper header="Regional Energy Mix">
-      <StatusBar
-        contextual={{ title: "Region", subtitle: code.toUpperCase() }}
-      />
-      <Generation mix={mix} />
-    </PageWrapper>
+    <>
+      {(isLoading || !mix) && <Loading />}
+
+      {!isLoading && (
+        <PageWrapper header="Regional Energy Mix">
+          <WindMap />
+          <StatusBar
+            time={mix.time}
+            contextual={{
+              title: "Region",
+              subtitle: mix.region,
+            }}
+          />
+          <Generation mix={mix} />
+        </PageWrapper>
+      )}
+    </>
   );
 };
 

@@ -4,6 +4,8 @@ import { useQuery } from "react-query";
 
 import { styled as styledComponent } from "styled-components";
 
+import dayjs from "dayjs";
+
 const Container = styledComponent(Card)`
 display: flex;
 justify-content: space-evenly;
@@ -21,10 +23,10 @@ const Box = styledComponent(StyledBox)`
 padding: 1rem;
 `;
 
-const StatusBar = ({ contextual }) => {
+const StatusBar = ({ time, contextual }) => {
   return (
     <Container>
-      <Box title="Time:" subtitle="12:30 pm" />
+      <Box title="Updated:" subtitle={`${dayjs(time).format("HH:mm")}`} />
       <Box title="Emissions:" subtitle="109g/kWh" />
       <Box title={contextual.title} subtitle={contextual.subtitle} />
     </Container>

@@ -8,6 +8,7 @@ import StatusBar from "./StatusBar";
 
 import categories from "../utilities/categories";
 import Loading from "./Loading";
+import Demand from "./Demand";
 
 const National = () => {
   const [mix, setMix] = useState();
@@ -31,20 +32,25 @@ const National = () => {
           };
         });
 
-        setMix({ generation });
+        setMix({ generation, time: data.to });
       },
       onError: (data) => console.log(data),
     }
   );
 
-  if (isLoading || !mix) {
-    return <Loading />;
-  }
-
   return (
     <PageWrapper header="National Energy Mix">
-      <StatusBar contextual={{ title: "Price", subtitle: "£100/MWh" }} />
-      <Generation mix={mix} />
+      {(isLoading || !mix) && <Loading />}
+      {!isLoading && (
+        <>
+          <StatusBar
+            time={mix.time}
+            contextual={{ title: "Price", subtitle: "£100/MWh" }}
+          />
+          <Demand />
+          <Generation mix={mix} />
+        </>
+      )}
     </PageWrapper>
   );
 };
