@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useQueries } from "react-query";
+import React from "react";
 
-const colors = {
-  high: { background: "#FF4136", text: "#FFD700" },
-  moderate: { background: "#FFD700", text: "#000000" },
-  low: { background: "#3D9970", text: "#FFFFFF" },
-};
-
-const statsFrom = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-
-const statsTo = new Date().toISOString();
+import colors from "../utilities/intensityColours";
 
 const RegionalCarbonIntensity = ({ data }) => {
   const compareForecast = () => {

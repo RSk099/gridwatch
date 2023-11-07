@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQueries } from "react-query";
 
-const colors = {
-  high: { background: "#FF4136", text: "#FFD700" },
-  moderate: { background: "#FFD700", text: "#000000" },
-  low: { background: "#3D9970", text: "#FFFFFF" },
-};
+import colors from "../utilities/intensityColours";
 
 const statsFrom = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -46,7 +42,7 @@ const CarbonIntensity = ({ regionalIntensity }) => {
 
   const compareForecast = () => {
     if (!intensity.actual) {
-      return `There's currently no reported value, but the forecast was: ${intensity.forecast} g.`;
+      return `There's currently no reported value, but the forecast was: ${intensity.forecast} .`;
     }
 
     if (intensity.actual > intensity.forecast) {
@@ -125,6 +121,15 @@ const CarbonIntensity = ({ regionalIntensity }) => {
           <span style={{ fontWeight: "bold" }}>
             {intensity.statistics.average} g.
           </span>
+          <div
+            style={{
+              width: "100%",
+              margin: "auto",
+              fontSize: "12px",
+            }}
+          >
+            <span>(gCO₂/kWh)</span>
+          </div>
         </div>
       </div>
     </div>

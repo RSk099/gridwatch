@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import RegionContext from "../Contexts/RegionContext";
 
+const defaultState = {
+  code: "",
+  district: "",
+  fetch: false,
+  coords: {},
+};
+
 const RegionProvider = ({ children }) => {
-  const [postcode, setPostcode] = useState();
+  const [region, setRegion] = useState(defaultState);
+
+  const resetRegion = () => {
+    setRegion(defaultState);
+  };
 
   const context = {
-    postcode,
-    setPostcode,
+    region,
+    setRegion,
+    resetRegion,
   };
 
   return (

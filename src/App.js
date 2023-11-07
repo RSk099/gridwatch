@@ -37,6 +37,7 @@ const queryClient = new QueryClient({
     queries: {
       enabled: true,
       queryFn: defaultQueryFn,
+      refetchOnMount: false,
       retry: false,
     },
   },
