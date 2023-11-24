@@ -5,13 +5,17 @@ const Header = styledComponent.div`
 display: flex;
 justify-content: space-between;  
 padding: 1rem;
-  background-color: ${(props) => props.color};
-  font-weight: bold;
-  text-transform: capitalize;
+background-color: ${(props) => props.color};
+color: ${(props) => props.fontColor};
+font-weight: 500;
+font-size: 20px;
+text-transform: capitalize;
+letter-spacing: .2px;
   `;
 
 Header.defaultProps = {
-  color: "#B3B3B3",
+  fontColor: "black",
+  color: "#52525287",
 };
 
 export default Header;
