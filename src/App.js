@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import axios, { CancelToken } from "axios";
 import { Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 
 import {
   StyledEngineProvider,
@@ -52,12 +53,31 @@ const darkTheme = createTheme({
   },
 });
 
+function fallbackRender({ error, resetErrorBoundary }) {
+  return (
+    <div
+      role="alert"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
+      <p>Something went wrong...</p>
+      {/* <pre style={{ color: "red" }}>{error.message}</pre> */}
+    </div>
+  );
+}
+
 const AppProvider = ({ children }) => (
-  <QueryClientProvider client={queryClient}>
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
-    </StyledEngineProvider>
-  </QueryClientProvider>
+  <ErrorBoundary fallbackRender={fallbackRender}>
+    <QueryClientProvider client={queryClient}>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
+      </StyledEngineProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default function App() {

@@ -16,7 +16,7 @@ const convertToInterval = (timestamp) => {
 const Demand = () => {
   const [demand, setDemand] = useState();
   const to = convertToInterval(dayjs());
-  const from = convertToInterval(dayjs().subtract(12, "hour"));
+  const from = convertToInterval(dayjs().subtract(11, "hour"));
 
   const queries = useQueries([
     {
@@ -30,9 +30,14 @@ const Demand = () => {
   ]);
 
   useEffect(() => {
-    if (!queries.some((query) => query.isLoading) && !demand) {
-      const actual = queries[0].data.data;
-      const forecast = queries[1].data.data;
+    const isLoading = queries.some((query) => query.isLoading);
+    if (!isLoading && !demand) {
+      const actual = queries[0].data?.data || [];
+      const forecast = queries[1].data?.data || [];
+
+      if (!actual.length || !forecast.length) {
+        return;
+      }
 
       const combinedData = [...actual, ...forecast].reduce((acc, entry) => {
         const { settlementPeriod, quantity } = entry;
@@ -61,26 +66,22 @@ const Demand = () => {
     }
   }, [queries, demand]);
 
-  const isLoading = queries.some((query) => query.isLoading);
-
-  if (isLoading || !demand) {
+  if (queries.some((query) => query.isLoading) || !demand) {
     return null;
   }
 
   return (
-    <GridBox>
-      <div style={{ width: "100%" }}>
-        <Header>Demand</Header>
-        <div style={{ width: "100%", textAlign: "right" }}>
-          <select value="one">
-            <option value="default">Time period</option>
-            <option value="one">1 hour</option>
-            <option value="three">3 hours</option>
-            <option value="twentyfour">24 hours</option>
-          </select>
-        </div>
-        <LineChart data={demand} style={{ width: "100%" }} />
-      </div>
+    <GridBox style={{ width: "100%", border: "1px solid #00000026" }}>
+      <Header>Demand</Header>
+      {/* <div style={{ width: "100%", textAlign: "right" }}>
+        <select value="one">
+          <option value="default">Time period</option>
+          <option value="one">1 hour</option>
+          <option value="three">3 hours</option>
+          <option value="twentyfour">24 hours</option>
+        </select>
+      </div> */}
+      <LineChart data={demand} style={{ width: "100%" }} />
     </GridBox>
   );
 };

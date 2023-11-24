@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
 
 import PageWrapper from "./PageWrapper";
 import Generation from "./Generation";
@@ -9,6 +8,7 @@ import StatusBar from "./StatusBar";
 import categories from "../utilities/categories";
 import Loading from "./Loading";
 import Demand from "./Demand";
+import FlexGrid from "./FlexGrid";
 
 const National = () => {
   const [mix, setMix] = useState();
@@ -47,7 +47,9 @@ const National = () => {
             time={mix.time}
             contextual={{ title: "Price", subtitle: "£100/MWh" }}
           />
-          <Demand />
+          <FlexGrid>
+            <Demand />
+          </FlexGrid>
           <Generation mix={mix} />
         </>
       )}

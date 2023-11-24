@@ -55,7 +55,6 @@ const Regional = () => {
 
       {!isLoading && (
         <PageWrapper header="Regional Energy Mix">
-          <WindMap />
           <StatusBar
             time={mix.time}
             contextual={{
@@ -63,6 +62,7 @@ const Regional = () => {
               subtitle: mix.region,
             }}
           />
+          <WindMap />
           <Generation mix={mix} />
         </PageWrapper>
       )}

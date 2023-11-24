@@ -6,11 +6,7 @@ import Emissions from "./Emissions";
 import EnergyTypes from "./EnergyTypes";
 import EnergyMix from "./EnergyMix";
 
-const FlexGrid = styledComponent.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-`;
+import FlexGrid from "./FlexGrid";
 
 const Generation = ({ mix }) => {
   return (

@@ -39,7 +39,7 @@ const EnergyTypes = ({ mix }) => {
       <div style={{ width: "25rem" }}>
         {Object.keys(categories).map((category) => (
           <GridBox variant="outlined" key={category}>
-            <Header color={fuels[category]}>
+            <Header color={fuels[category]} fontColor="black">
               <span style={{ marginTop: "auto", marginBottom: "auto" }}>
                 {category}
               </span>
@@ -52,6 +52,7 @@ const EnergyTypes = ({ mix }) => {
                   fuelType == category && (
                     <Value key={fuel}>
                       {fuel.charAt(0).toUpperCase() + fuel.slice(1)}: {perc} %
+                      {fuel === "imports" && <> (0.65 GW / 1GW)</>}
                     </Value>
                   )
               )}
